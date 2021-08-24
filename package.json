@@ -1,0 +1,24 @@
+{
+  "name": "nodejs_graphql_v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=dev nodemon src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "graphql-yoga": "^1.18.3",
+    "mongoose": "^5.13.8",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12"
+  }
+}

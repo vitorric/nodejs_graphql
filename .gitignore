@@ -1,0 +1,9 @@
+node_modules
+package-lock.js
+.vscode
+.env.local
+.env.test
+.nyc_output
+coverage
+mochawesome-report
+apidoc
