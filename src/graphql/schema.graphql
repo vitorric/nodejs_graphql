@@ -9,6 +9,7 @@ type User {
 type Query {
     users: [User!]!
     loginUser(email: String!, password: String!): User
+    getUser(_id: String!): User
 }
 
 type Mutation {

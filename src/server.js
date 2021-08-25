@@ -1,6 +1,5 @@
 const { GraphQLServer } = require('graphql-yoga'),
   path = require('path'),
-  resolvers = require('./graphql/resolvers'),
   dotenv = require('dotenv');
 
 dotenv.config({ path: path.resolve(`.env.${process.env.NODE_ENV}`) });
@@ -12,7 +11,10 @@ const options = {
 
 const server = new GraphQLServer({
   typeDefs: path.resolve(__dirname, 'graphql/schema.graphql'),
-  resolvers
+  resolvers: require('./graphql/resolvers'),
+  context: ({ request }) => {
+    return request;
+  }
 });
 
 server.start(options, ({ port }) =>

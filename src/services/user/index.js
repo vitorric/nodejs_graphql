@@ -1,5 +1,5 @@
-const { getUserByEmailRepository, createUserRepository } = require('../../repositories/user'),
-  { createToken } = require('../../middleware/passport/create'),
+const { getUserByEmailRepository, createUserRepository, getUserByIdRepository } = require('../../repositories/user'),
+  AuthMiddleware = require('../../middleware/auth'),
   { getMD5 } = require('../../utils');
 
 exports.userSignUp = async ({ name, email, password }) => {
@@ -18,7 +18,7 @@ exports.userSignUp = async ({ name, email, password }) => {
   user = await createUserRepository({ name, email, password: encryptedPassword, role: 'user' });
 
   if (user) {
-    const token = createToken({ _id: user._id });
+    const token = AuthMiddleware.create({ _id: user._id });
 
     return {
       ...user._doc,
@@ -27,11 +27,26 @@ exports.userSignUp = async ({ name, email, password }) => {
   }
 };
 
-exports.userLogin = async (user) => {
-  console.log(user);
-  const token = createToken({ _id: user._id });
+exports.userLogin = async ({email, password}) => {
+  const user = await getUserByEmailRepository(email);
+
+  if (!user){
+    throw { msg: 'Unauthorized' };
+  }
+
+  if (!getMD5(password) === user.password){
+    throw { msg: 'Unauthorized' };
+  }
+
+  if (user.role !== 'user' || user.delete || !user.status) {
+    throw { msg: 'Unauthorized' };
+  }
+
+  const token = AuthMiddleware.create({ _id: user._id });
   return {
     ...user._doc,
     token
   };
 };
+
+exports.getUser = async ({ _id }) => await getUserByIdRepository(_id);

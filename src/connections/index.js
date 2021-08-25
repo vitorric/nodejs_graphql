@@ -1,8 +1,4 @@
-const mongoose = require('mongoose'),
-  path = require('path'),
-  dotenv = require('dotenv');
-
-dotenv.config({ path: path.resolve(`.env.${process.env.NODE_ENV}`) });
+const mongoose = require('mongoose');
 
 let config = {
   MONGO_HOST: process.env.MONGO_HOST,
